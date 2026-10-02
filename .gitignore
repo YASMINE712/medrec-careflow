@@ -1,0 +1,25 @@
+.conda/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+instance/
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite*
+*.pem
+*.key
+*.joblib
+pdfs/
+tmp/
+output/
+node_modules/
+ml/artifacts/model.json
+# Original third-party data: provenance and redistribution rights unverified.
+data/*.csv

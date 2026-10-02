@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="heading-row">
+<div>
+<div class="eyebrow">CLINICIAN WORKSPACE</div>
+<h1>Make room for better care.</h1>
+<p class="lead">Review patient check-ins and share a thoughtful next step.</p>
+</div>
+<span class="pill">Care team</span>
+</div>
+<div class="stats">
+<article class="stat">
+<span>Awaiting review</span>
+<strong>{{ entries|length }}</strong>
+<small>Oldest submissions shown first</small>
+</article>
+<article class="stat wide">
+<span>Human oversight, by design</span>
+<h2>Your assessment comes first.</h2>
+<small>Experimental model suggestions never become automatic prescriptions.</small>
+</article>
+</div>
+<section class="panel">
+<div class="section-heading">
+<h2>Review queue</h2>
+<span class="pill">Pending check-ins</span>
+</div>
+{% for entry in entries %}
+<article class="entry">
+<span class="avatar">{{ entry.patient.first_name[:1] }}</span>
+<div>
+<h3>{{ entry.patient.first_name }} {{ entry.patient.last_name }}</h3>
+<p>{{ entry.symptoms.replace('_', ' ').replace(',', ' · ') }}</p>
+<small>{{ entry.date_submitted.strftime('%d %b %Y · %H:%M') }}</small>
+</div>
+<a class="button secondary" href="{{ url_for('doctor.validate_entry', entry_id=entry.id) }}">Review →</a>
+</article>
+{% else %}
+<div class="empty">
+<span class="empty-icon">✓</span>
+<h3>You’re all caught up</h3>
+<p>New patient check-ins will appear here.</p>
+</div>
+{% endfor %}
+</section>
+{% endblock %}

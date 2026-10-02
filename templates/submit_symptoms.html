@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-heading">
+<a class="back" href="{{ url_for('patient.dashboard') }}">← Back to overview</a>
+<div class="eyebrow">NEW CHECK-IN</div>
+<h1>Tell us how you feel.</h1>
+<p class="lead">Select up to 15 symptoms for your care team to review.</p>
+</div>
+<form method="post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="dashboard-grid">
+<section class="panel">
+<label for="symptom-search">Find a symptom</label>
+<input id="symptom-search" type="search" placeholder="Try headache or fatigue…">
+<div class="selection-summary">
+<span id="selection-count" aria-live="polite">0 selected</span>
+<span>Maximum 15</span>
+</div>
+<fieldset class="symptom-list">
+<legend class="sr-only">Available symptoms</legend>
+{% for symptom in all_symptoms %}
+<label class="symptom-option">
+<input type="checkbox" name="symptoms" value="{{ symptom }}">
+<span>{{ symptom.replace('_', ' ')|capitalize }}</span>
+</label>
+{% endfor %}
+</fieldset>
+<p id="no-results" hidden>No matching symptoms. Try a different word.</p>
+<button class="button full">Send for review →</button>
+</section>
+<aside>
+<section class="panel guide">
+<span class="pill">WHAT HAPPENS NEXT</span>
+<h2>You share.<br>Your clinician reviews.</h2>
+<ol>
+<li>Select the symptoms you want to share.</li>
+<li>A clinician reviews your check-in and writes their assessment.</li>
+<li>Read and download the care summary from your overview.</li>
+</ol>
+<div class="subtle-note">This is an educational demo. It does not diagnose conditions or provide emergency care.</div>
+</section>
+</aside>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-heading">
+<a class="back" href="{{ url_for('doctor.dashboard') }}">← Back to queue</a>
+<div class="eyebrow">CHECK-IN #{{ entry.id }}</div>
+<h1>A thoughtful next step.</h1>
+<p class="lead">Review {{ entry.patient.first_name }} {{ entry.patient.last_name }}’s submission.</p>
+</div>
+<div class="dashboard-grid">
+<section class="panel">
+<h2>Patient check-in</h2>
+<p class="muted">{{ entry.date_submitted.strftime('%d %b %Y · %H:%M') }}</p>
+<div class="tags">
+{% for symptom in entry.symptoms.split(',') %}
+<span class="pill">{{ symptom.replace('_', ' ') }}</span>
+{% endfor %}
+</div>
+<div class="model-note">
+<span class="eyebrow">EXPERIMENTAL ML SUGGESTION</span>
+<h3>{{ entry.prediction }}</h3>
+<p>Research baseline trained on an unverified symptom dataset. This is not a diagnosis; use independent judgement. No medication is generated automatically.</p>
+</div>
+</section>
+<section class="panel">
+<h2>Your assessment</h2>
+<p class="muted">These notes will be shared with the patient.</p>
+<form method="post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<label for="assessment">Assessment</label>
+<input id="assessment" name="assessment" minlength="3" maxlength="200" value="{{ request.form.get('assessment', '') }}" required>
+<label for="note">Care notes &amp; next steps</label>
+<textarea id="note" name="note" rows="8" minlength="10" maxlength="5000" required>{{ request.form.get('note', '') }}</textarea>
+<button class="button full">Complete review &amp; share →</button>
+</form>
+</section>
+</div>
+{% endblock %}

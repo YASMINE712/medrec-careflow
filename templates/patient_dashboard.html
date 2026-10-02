@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="heading-row">
+<div>
+<div class="eyebrow">YOUR CARE, CONNECTED</div>
+<h1>Hello, {{ current_user.first_name }}.</h1>
+<p class="lead">A little more clarity about your next step.</p>
+</div>
+<a class="button" href="{{ url_for('patient.submit_symptoms') }}">＋ New check-in</a>
+</div>
+<section class="hero-banner">
+<div>
+<span class="eyebrow">A SPACE TO BE HEARD</span>
+<h2>How are you feeling today?</h2>
+<p>Share what you’re experiencing.<br>Your care team can review and respond.</p>
+<a href="{{ url_for('patient.submit_symptoms') }}">Start a check-in <span aria-hidden="true">→</span>
+</a>
+</div>
+<div class="hero-mark" aria-hidden="true">+</div>
+</section>
+<div class="stats">
+<article class="stat">
+<span>Total check-ins</span>
+<strong>{{ entries|length }}</strong>
+<small>Your care journey so far</small>
+</article>
+<article class="stat">
+<span>Awaiting review</span>
+<strong>{{ entries|rejectattr('validated')|list|length }}</strong>
+<small>In your care team’s queue</small>
+</article>
+<article class="stat">
+<span>Care summaries</span>
+<strong>{{ prescriptions|length }}</strong>
+<small>Reviewed and ready to read</small>
+</article>
+</div>
+<div class="dashboard-grid">
+<section class="panel">
+<div class="section-heading">
+<h2>Recent check-ins</h2>
+<span class="pill">{{ entries|length }} total</span>
+</div>
+{% for entry in entries %}
+<article class="entry">
+<div class="entry-icon">+</div>
+<div>
+<h3>Check-in #{{ entry.id }}</h3>
+<p>{{ entry.symptoms.replace('_', ' ').replace(',', ' · ') }}</p>
+<small>{{ entry.date_submitted.strftime('%d %b %Y · %H:%M') }}</small>
+</div>
+<span class="status {{ 'complete' if entry.validated else '' }}">{{ 'Reviewed' if entry.validated else 'Pending' }}</span>
+</article>
+{% else %}
+<div class="empty">
+<span class="empty-icon">＋</span>
+<h3>Your first check-in starts here</h3>
+<p>Share your symptoms and follow the review here.</p>
+<a href="{{ url_for('patient.submit_symptoms') }}">Create a check-in →</a>
+</div>
+{% endfor %}
+</section>
+<section class="panel">
+<h2>Your care summaries</h2>
+{% for p in prescriptions %}
+<article class="summary">
+<span class="status complete">Clinician reviewed</span>
+<h3>{{ p.disease }}</h3>
+<p class="preserve">{{ p.description }}</p>
+<small>{{ p.date_issued.strftime('%d %b %Y') }}</small>
+<a class="download" href="{{ url_for('patient.download_pdf', prescription_id=p.id) }}">↓ Download summary</a>
+</article>
+{% else %}
+<div class="empty">
+<span class="empty-icon">≡</span>
+<h3>Nothing to read just yet</h3>
+<p>Your clinician’s notes will appear here after review.</p>
+</div>
+{% endfor %}
+</section>
+</div>
+{% endblock %}

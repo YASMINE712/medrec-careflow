@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="panel empty">
+<span class="eyebrow">REQUEST {{ code }}</span>
+<h1>Let’s get you back on track.</h1>
+<p>
+{% if code == 429 %}
+Too many attempts. Please wait a minute before trying again.
+{% elif code == 400 %}
+This form may have expired or contains invalid details. Reload the page and try again.
+{% elif code == 409 %}
+This check-in has already been reviewed.
+{% elif code == 403 %}
+Your account does not have access to this workspace.
+{% else %}
+We couldn’t complete that request.
+{% endif %}
+</p>
+<a class="button" href="{{ url_for('index') }}">Back to workspace</a>
+</section>
+{% endblock %}
