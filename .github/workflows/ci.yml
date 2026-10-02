@@ -30,7 +30,7 @@ jobs:
           path: ml/artifacts/metrics.json
   container:
     needs: verify
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read

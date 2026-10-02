@@ -85,7 +85,7 @@ docker run --rm -p 127.0.0.1:5000:5000 -v medrec-instance:/app/instance medrec-c
 
 The container runs as a non-root user and uses synthetic data. Docker-created volumes inherit the image directory ownership. Host bind mounts need write permissions for that user. The default commands are for a local demo only.
 
-GitHub Actions runs lint, formatting, tests, training, and a dependency audit on Python 3.10/3.11/3.12. After successful verification on a push, it publishes a commit-tagged image to GitHub Container Registry. This is continuous delivery of a container, not automatic deployment of a public patient service. GitHub package publishing must be enabled for the repository.
+GitHub Actions runs lint, formatting, tests, training, and a dependency audit on Python 3.10/3.11/3.12. After successful verification on a push to main, it publishes a commit-tagged image to GitHub Container Registry. This is continuous delivery of a container, not automatic deployment of a public patient service. GitHub package publishing must be enabled for the repository.
 
 For a deployment, set `APP_ENV=production`, supply independent `SECRET_KEY` and `ENCRYPTION_KEY`, terminate HTTPS at a trusted reverse proxy, and use shared rate-limit storage for multiple workers. The current single-process in-memory limiter is a demo default. Do not connect an old plaintext database: this schema requires a fresh database or an explicitly reviewed migration. `init-db` creates missing tables; it does not migrate existing tables.
 

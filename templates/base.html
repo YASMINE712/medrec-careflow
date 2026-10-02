@@ -21,14 +21,14 @@ MedRec CareFlow
 <div class="workspace-label">YOUR WORKSPACE</div>
 <nav aria-label="Main navigation">
 {% if current_user.is_authenticated %}
-<a class="nav-link 
+<a class="nav-link
 {% if (request.endpoint or '').endswith('dashboard') %}
 active
 {% endif %}
 " href="{{ url_for(current_user.role ~ '.dashboard') }}">
 <span aria-hidden="true">▦</span> Overview</a>
 {% if current_user.role == 'patient' %}
-<a class="nav-link 
+<a class="nav-link
 {% if request.endpoint == 'patient.submit_symptoms' %}
 active
 {% endif %}
@@ -50,7 +50,7 @@ active
 </aside>
 <div class="workspace">
 <header class="topbar">
-<span>Connected care <span class="separator">/</span> 
+<span>Connected care <span class="separator">/</span>
 {% if current_user.is_authenticated %}
 {{ current_user.role|capitalize }} workspace
 {% else %}
